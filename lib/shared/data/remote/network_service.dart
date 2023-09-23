@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/shared/domain/models/response.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../../domain/models/response.dart';
+import '../../exceptions/http_exception.dart';
 
 abstract class NetworkService {
   String get baseUrl;

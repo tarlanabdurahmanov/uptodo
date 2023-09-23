@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todolistapp/shared/data/local/storage_service.dart';
+import 'storage_service.dart';
 
 class SharedPrefsService implements StroageService {
   SharedPreferences? sharedPreferences;

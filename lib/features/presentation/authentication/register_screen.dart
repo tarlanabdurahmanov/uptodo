@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todolistapp/core/widgets/app_snackbar.dart';
-import 'package:todolistapp/features/data/datasources/authentication/auth_providers.dart';
-import 'package:todolistapp/features/data/datasources/authentication/state/auth_state.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/features/presentation/widgets/custom_text_form_field.dart';
-import 'package:todolistapp/features/presentation/widgets/or_divider.dart';
-import 'package:todolistapp/routes/app_route.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import 'package:todolistapp/features/providers/authentication/authentication_provider.dart';
+import '../widgets/button.dart';
+import '../widgets/custom_text_form_field.dart';
+import '../widgets/or_divider.dart';
+import '../../../routes/app_route.dart';
+import '../../../shared/utils/app_assets.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 @RoutePage()
 class RegisterScreen extends ConsumerWidget {
@@ -28,27 +27,31 @@ class RegisterScreen extends ConsumerWidget {
       TextEditingController(text: '0lelplR');
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authStateNotifierProvider);
-    ref.listen(
-      authStateNotifierProvider.select((value) => value),
-      ((previous, next) {
-        if (next is Failure) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.maybeWhen(
+        orElse: () => null,
+        authenticated: (user) {
           appSnackBar(
             context,
-            text: next.exception.message.toString(),
-            type: AnimatedSnackBarType.error,
-          );
-        } else if (next is Success) {
-          appSnackBar(
-            context,
-            text: "Success Login!",
+            text: 'User Authenticated',
             type: AnimatedSnackBarType.success,
           );
-          AutoRouter.of(context)
-              .pushAndPopUntil(const HomeRoute(), predicate: (_) => false);
-        }
-      }),
-    );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('User Authenticated'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        },
+        unauthenticated: (message) {
+          appSnackBar(
+            context,
+            text: message.message.toString(),
+            type: AnimatedSnackBarType.error,
+          );
+        },
+      );
+    });
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -98,15 +101,19 @@ class RegisterScreen extends ConsumerWidget {
               40.height,
               PrimaryButton(
                 text: "Register",
-                isLoading: state.maybeMap(
-                  orElse: () => false,
-                  loading: (_) => true,
-                ),
+                isLoading: ref.watch(authNotifierProvider).maybeWhen(
+                      orElse: () => false,
+                      loading: () => true,
+                    ),
                 onPressed: () {
-                  ref.read(authStateNotifierProvider.notifier).loginUser(
-                        usernameController.text,
-                        passwordController.text,
+                  ref.read(authNotifierProvider.notifier).signup(
+                        email: usernameController.text,
+                        password: passwordController.text,
                       );
+                  // ref.read(authStateNotifierProvider.notifier).loginUser(
+                  //       usernameController.text,
+                  //       passwordController.text,
+                  //     );
                 },
                 maxWidth: true,
               ),
@@ -116,7 +123,9 @@ class RegisterScreen extends ConsumerWidget {
               OutlineButton(
                 hasIcon: true,
                 text: "Login with Google",
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(authNotifierProvider.notifier).continueWithGoogle();
+                },
                 maxWidth: true,
                 icon: SvgPicture.asset(AppAssets.google),
               ),
@@ -135,7 +144,7 @@ class RegisterScreen extends ConsumerWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Don’t have an account? ",
+                        text: "Already have an account? ",
                         style: TextStyle(
                           color: Theme.of(context)
                               .colorScheme
@@ -144,14 +153,17 @@ class RegisterScreen extends ConsumerWidget {
                         ),
                       ),
                       TextSpan(
-                        text: "Register",
+                        text: "Login",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,
                           fontSize: FontSize.thin,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // AutoRouter.of(context).push();
+                            AutoRouter.of(context).pushAndPopUntil(
+                              LoginRoute(),
+                              predicate: (_) => false,
+                            );
                           },
                       ),
                     ],

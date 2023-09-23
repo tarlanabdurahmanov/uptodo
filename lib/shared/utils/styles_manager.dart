@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 import 'font_manager.dart';
 

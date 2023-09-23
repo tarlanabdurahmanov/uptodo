@@ -4,17 +4,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/core/widgets/app_snackbar.dart';
-import 'package:todolistapp/features/data/datasources/authentication/auth_providers.dart';
-import 'package:todolistapp/features/data/datasources/authentication/state/auth_state.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/features/presentation/widgets/custom_text_form_field.dart';
-import 'package:todolistapp/features/presentation/widgets/or_divider.dart';
-import 'package:todolistapp/routes/app_route.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import 'package:todolistapp/features/providers/authentication/authentication_provider.dart';
+import '../../../core/widgets/app_snackbar.dart';
+import '../widgets/button.dart';
+import '../widgets/custom_text_form_field.dart';
+import '../widgets/or_divider.dart';
+import '../../../routes/app_route.dart';
+import '../../../shared/utils/app_assets.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerWidget {
@@ -26,29 +25,53 @@ class LoginScreen extends ConsumerWidget {
       TextEditingController(text: 'kminchelle');
   final TextEditingController passwordController =
       TextEditingController(text: '0lelplR');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authStateNotifierProvider);
-    ref.listen(
-      authStateNotifierProvider.select((value) => value),
-      ((previous, next) {
-        if (next is Failure) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.maybeWhen(
+        orElse: () {},
+        authenticated: (user) {
           appSnackBar(
             context,
-            text: next.exception.message.toString(),
-            type: AnimatedSnackBarType.error,
-          );
-        } else if (next is Success) {
-          appSnackBar(
-            context,
-            text: "Success Login!",
+            text: "User Logged In",
             type: AnimatedSnackBarType.success,
           );
-          AutoRouter.of(context)
-              .pushAndPopUntil(const HomeRoute(), predicate: (_) => false);
-        }
-      }),
-    );
+          AutoRouter.of(context).pushAndPopUntil(
+            const MainRoute(),
+            predicate: (_) => false,
+          );
+        },
+        unauthenticated: (message) {
+          appSnackBar(
+            context,
+            text: message.message.toString(),
+            type: AnimatedSnackBarType.error,
+          );
+        },
+      );
+    });
+    // final state = ref.watch(authStateNotifierProvider);
+    // ref.listen(
+    //   authStateNotifierProvider.select((value) => value),
+    //   ((previous, next) {
+    //     if (next is Failure) {
+    //       appSnackBar(
+    //         context,
+    //         text: next.exception.message.toString(),
+    //         type: AnimatedSnackBarType.error,
+    //       );
+    //     } else if (next is Success) {
+    //       appSnackBar(
+    //         context,
+    //         text: "Success Login!",
+    //         type: AnimatedSnackBarType.success,
+    //       );
+    //       AutoRouter.of(context)
+    //           .pushAndPopUntil(const MainRoute(), predicate: (_) => false);
+    //     }
+    //   }),
+    // );
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -87,14 +110,17 @@ class LoginScreen extends ConsumerWidget {
               70.height,
               PrimaryButton(
                 text: "Login",
-                isLoading: state.maybeMap(
-                  orElse: () => false,
-                  loading: (_) => true,
-                ),
+                isLoading: ref
+                    .watch(authNotifierProvider)
+                    .maybeWhen(orElse: () => false, loading: () => true),
                 onPressed: () {
-                  ref.read(authStateNotifierProvider.notifier).loginUser(
-                        usernameController.text,
-                        passwordController.text,
+                  // ref.read(authStateNotifierProvider.notifier).loginUser(
+                  //       usernameController.text,
+                  //       passwordController.text,
+                  //     );
+                  ref.read(authNotifierProvider.notifier).login(
+                        email: usernameController.text,
+                        password: passwordController.text,
                       );
                 },
                 maxWidth: true,
@@ -105,7 +131,9 @@ class LoginScreen extends ConsumerWidget {
               OutlineButton(
                 hasIcon: true,
                 text: "Login with Google",
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(authNotifierProvider.notifier).continueWithGoogle();
+                },
                 maxWidth: true,
                 icon: SvgPicture.asset(AppAssets.google),
               ),
@@ -140,7 +168,10 @@ class LoginScreen extends ConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            AutoRouter.of(context).push(RegisterRoute());
+                            AutoRouter.of(context).pushAndPopUntil(
+                              RegisterRoute(),
+                              predicate: (_) => false,
+                            );
                           },
                       ),
                     ],

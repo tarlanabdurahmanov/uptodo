@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/features/data/models/user_model.dart';
-import 'package:todolistapp/shared/data/remote/remote.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../../models/user_model.dart';
+import '../../../../shared/data/remote/remote.dart';
+import '../../../../shared/exceptions/http_exception.dart';
 
 abstract class LoginUserDataSource {
   Future<Either<AppException, User>> loginUser({required User user});
@@ -19,6 +19,7 @@ class LoginUserRemoteDataSource implements LoginUserDataSource {
         '/auth/login',
         data: user.toJson(),
       );
+
       return eitherType.fold(
         (exception) {
           return Left(exception);

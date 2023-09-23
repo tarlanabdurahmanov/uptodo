@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolistapp/features/data/datasources/authentication/state/auth_state.dart';
-import 'package:todolistapp/features/data/models/user_model.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/auth_repository.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/user_cache_repository.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import 'auth_state.dart';
+import '../../../models/user_model.dart';
+import '../../../../domain/repositories/authentication/auth_repository.dart';
+import '../../../../domain/repositories/authentication/user_cache_repository.dart';
+import '../../../../../shared/exceptions/http_exception.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthenticationRepository authRepository;

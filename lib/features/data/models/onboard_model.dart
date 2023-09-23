@@ -1,4 +1,4 @@
-import 'package:todolistapp/shared/utils/app_assets.dart';
+import '../../../shared/utils/app_assets.dart';
 
 class OnBoard {
   final String image;

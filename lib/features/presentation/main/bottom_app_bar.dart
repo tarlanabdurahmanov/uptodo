@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 class BottomAppBarItem {
   final Widget icon;
@@ -85,7 +87,6 @@ class CustomBottomAppBarState extends State<CustomBottomAppBar> {
     required int index,
     required ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
     Widget icon = _selectedIndex == index ? item.activeIcon : item.icon;
     return Expanded(
       child: SizedBox(
@@ -98,9 +99,10 @@ class CustomBottomAppBarState extends State<CustomBottomAppBar> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               icon,
-              Text(
+              defaultText(
                 item.text,
-                style: TextStyle(color: color),
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: FontSize.thin,
               )
             ],
           ),

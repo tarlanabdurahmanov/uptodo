@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../widgets/button.dart';
+import '../../../../shared/theme/app_colors.dart';
+import '../../../../shared/utils/app_assets.dart';
+import '../../../../shared/utils/font_manager.dart';
+import '../../../../shared/utils/size.dart';
+import '../../../../shared/utils/styles_manager.dart';
 
 showCategoryDialog({
   required BuildContext context,

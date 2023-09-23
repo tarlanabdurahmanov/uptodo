@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolistapp/observers.dart';
-import 'package:todolistapp/routes/app_route.dart';
-import 'package:todolistapp/shared/theme/app_theme.dart';
+import 'package:todolistapp/firebase_options.dart';
+import 'observers.dart';
+import 'routes/app_route.dart';
+import 'shared/theme/app_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.white,

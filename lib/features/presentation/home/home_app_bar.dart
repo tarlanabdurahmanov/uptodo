@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../../shared/utils/app_assets.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 AppBar homeAppBar(
   BuildContext context, {

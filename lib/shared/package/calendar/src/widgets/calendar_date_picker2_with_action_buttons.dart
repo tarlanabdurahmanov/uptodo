@@ -1,10 +1,10 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:todolistapp/core/widgets/app_snackbar.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/shared/package/calendar/calendar_date_picker2.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../../../../core/widgets/app_snackbar.dart';
+import '../../../../../features/presentation/widgets/button.dart';
+import '../../calendar_date_picker2.dart';
+import '../../../../utils/size.dart';
+import '../../../../utils/styles_manager.dart';
 
 class CalendarDatePicker2WithActionButtons extends StatefulWidget {
   const CalendarDatePicker2WithActionButtons({

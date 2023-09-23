@@ -40,7 +40,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
     setState(() {
       selectedCategory = categoryModel.id;
     });
-    print("categoryModel -> ${categoryModel.id}");
+    // print("categoryModel -> ${categoryModel.id}");
     Navigator.pop(context);
   }
 

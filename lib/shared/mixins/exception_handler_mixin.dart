@@ -4,9 +4,9 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:todolistapp/shared/domain/models/response.dart' as response;
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
-import 'package:todolistapp/shared/data/remote/remote.dart';
+import '../domain/models/response.dart' as response;
+import '../exceptions/http_exception.dart';
+import '../data/remote/remote.dart';
 
 mixin ExceptionHandlerMixin on NetworkService {
   Future<Either<AppException, response.Response>>

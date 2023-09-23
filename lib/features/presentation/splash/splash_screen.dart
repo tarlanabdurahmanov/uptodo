@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/features/providers/splash/splash_provider.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../providers/splash/splash_provider.dart';
+import '../../../shared/utils/app_assets.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 import '../../../../routes/app_route.dart';
 
@@ -20,13 +20,15 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   final AppRouter appRouter = AppRouter();
+
   @override
   void initState() {
     super.initState();
+    final user = ref.read(userProvider);
+
     Future.delayed(const Duration(seconds: 1), () async {
-      final isUserLoggedIn = await ref.read(userLoginCheckProvider.future);
       final route =
-          isUserLoggedIn ? const MainRoute() : LoginRoute() as PageRouteInfo;
+          user != null ? const MainRoute() : LoginRoute() as PageRouteInfo;
       // ignore: use_build_context_synchronously
       AutoRouter.of(context).pushAndPopUntil(
         route,

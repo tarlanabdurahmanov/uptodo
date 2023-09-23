@@ -3,10 +3,10 @@
 
 
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/features/data/datasources/authentication/auth_remote_data_source.dart';
-import 'package:todolistapp/features/data/models/user_model.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/auth_repository.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../datasources/authentication/auth_remote_data_source.dart';
+import '../models/user_model.dart';
+import '../../domain/repositories/authentication/auth_repository.dart';
+import '../../../shared/exceptions/http_exception.dart';
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository {
   final LoginUserDataSource dataSource;

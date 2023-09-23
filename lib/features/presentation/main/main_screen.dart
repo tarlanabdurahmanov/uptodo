@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/features/presentation/main/add_task_modal.dart';
-import 'package:todolistapp/features/presentation/main/bottom_app_bar.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/utils/app_assets.dart';
+import '../calendar/calendar_screen.dart';
+import 'add_task_modal.dart';
+import 'bottom_app_bar.dart';
+import '../profile/profile_screen.dart';
+import '../../../shared/theme/app_colors.dart';
+import '../../../shared/utils/app_assets.dart';
+import '../../../shared/widgets/app_error.dart';
 import '../home/home_screen.dart';
 
 @RoutePage()
@@ -41,30 +44,62 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: const [
         HomeScreen(),
-        Placeholder(),
-        HomeScreen(),
-        HomeScreen(),
+        CalendarScreen(),
+        AppError(),
+        ProfileScreen(),
       ][selectedPageIndex],
       bottomNavigationBar: CustomBottomAppBar(
         items: [
           BottomAppBarItem(
-            icon: SvgPicture.asset(AppAssets.home),
-            activeIcon: SvgPicture.asset(AppAssets.homeFill),
+            icon: SvgPicture.asset(
+              AppAssets.home,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            activeIcon: SvgPicture.asset(
+              AppAssets.homeFill,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             text: "Index",
           ),
           BottomAppBarItem(
-            icon: SvgPicture.asset(AppAssets.calendar),
-            activeIcon: SvgPicture.asset(AppAssets.calendarFill),
+            icon: SvgPicture.asset(
+              AppAssets.calendar,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            activeIcon: SvgPicture.asset(
+              AppAssets.calendarFill,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             text: "Calendar",
           ),
           BottomAppBarItem(
-            icon: SvgPicture.asset(AppAssets.clock),
-            activeIcon: SvgPicture.asset(AppAssets.clockFill),
+            icon: SvgPicture.asset(
+              AppAssets.clock,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            activeIcon: SvgPicture.asset(
+              AppAssets.clockFill,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             text: "Focus",
           ),
           BottomAppBarItem(
-            icon: SvgPicture.asset(AppAssets.user),
-            activeIcon: SvgPicture.asset(AppAssets.user),
+            icon: SvgPicture.asset(
+              AppAssets.user,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            activeIcon: SvgPicture.asset(
+              AppAssets.user,
+              // ignore: deprecated_member_use
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             text: "Profile",
           ),
         ],

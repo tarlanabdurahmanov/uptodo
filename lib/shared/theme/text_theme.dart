@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/theme/test_styles.dart';
+import 'app_colors.dart';
+import 'test_styles.dart';
 
 class TextThemes {
   /// Main text theme

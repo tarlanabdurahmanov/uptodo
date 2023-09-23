@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/features/data/datasources/authentication/user_local_datasource.dart';
-import 'package:todolistapp/features/data/models/user_model.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/user_cache_repository.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../datasources/authentication/user_local_datasource.dart';
+import '../models/user_model.dart';
+import '../../domain/repositories/authentication/user_cache_repository.dart';
+import '../../../shared/exceptions/http_exception.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.dataSource);

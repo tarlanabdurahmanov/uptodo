@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/data/local/storage_service.dart';
-import 'package:todolistapp/shared/domain/providers/sharedpreferences_storage_service_provider.dart';
-import 'package:todolistapp/shared/globals.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/theme/test_styles.dart';
-import 'package:todolistapp/shared/theme/text_theme.dart';
+import '../data/local/storage_service.dart';
+import '../domain/providers/sharedpreferences_storage_service_provider.dart';
+import '../globals.dart';
+import 'app_colors.dart';
+import 'test_styles.dart';
+import 'text_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appThemeProvider = StateNotifierProvider<AppThemeModeNotifier, ThemeMode>(
@@ -32,7 +32,7 @@ class AppThemeModeNotifier extends StateNotifier<ThemeMode> {
     // final theme = await stroageService.get(APP_THEME_STORAGE_KEY);
     // ignore: unnecessary_string_interpolations
     final value = ThemeMode.values.byName('${'dark'}');
-    // final value = ThemeMode.values.byName('${'dark' ?? 'light'}');
+    // final value = ThemeMode.values.byName('${'light' ?? 'light'}');
     state = value;
   }
 }
@@ -84,12 +84,12 @@ class AppTheme {
         secondary: AppColors.black,
         error: AppColors.error,
         onPrimary: AppColors.secondaryGrey,
-        onBackground: AppColors.secondaryBlack,
+        onBackground: AppColors.extraLightGrey,
         onSecondary: AppColors.lightGrey,
         onSurface: AppColors.lightBlack,
         onSecondaryContainer: AppColors.grey,
         onInverseSurface: Color(0xFF272727),
-        background: AppColors.black,
+        background: AppColors.white,
       ),
       appBarTheme: const AppBarTheme(
         elevation: 0,

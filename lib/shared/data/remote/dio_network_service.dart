@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:todolistapp/configs/app_configs.dart';
-import 'package:todolistapp/shared/data/remote/network_service.dart';
-import 'package:todolistapp/shared/domain/models/response.dart' as response;
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
-import 'package:todolistapp/shared/globals.dart';
-import 'package:todolistapp/shared/mixins/exception_handler_mixin.dart';
+import '../../../configs/app_configs.dart';
+import 'network_service.dart';
+import '../../domain/models/response.dart' as response;
+import '../../exceptions/http_exception.dart';
+import '../../globals.dart';
+import '../../mixins/exception_handler_mixin.dart';
 
 class DioNetworkService extends NetworkService with ExceptionHandlerMixin {
   final Dio dio;

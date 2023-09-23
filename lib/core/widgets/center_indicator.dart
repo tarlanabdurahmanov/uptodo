@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
+import '../../shared/theme/app_colors.dart';
 
 
 class CenterProgressIndicator extends StatelessWidget {

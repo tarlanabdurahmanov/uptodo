@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../../exceptions/http_exception.dart';
 
 class Response {
   final int statusCode;

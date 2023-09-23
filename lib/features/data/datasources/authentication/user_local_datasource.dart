@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:todolistapp/features/data/models/user_model.dart';
-import 'package:todolistapp/shared/data/local/storage_service.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
-import 'package:todolistapp/shared/globals.dart';
+import '../../models/user_model.dart';
+import '../../../../shared/data/local/storage_service.dart';
+import '../../../../shared/exceptions/http_exception.dart';
+import '../../../../shared/globals.dart';
 
 abstract class UserDataSource {
   String get storageKey;

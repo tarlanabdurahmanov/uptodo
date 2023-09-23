@@ -1,6 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/core/enums/app_enums.dart';
+import '../../shared/theme/app_colors.dart';
+import '../enums/app_enums.dart';
 
 Future<bool?> buildToast({required String msg, required ToastType type}) =>
     Fluttertoast.showToast(

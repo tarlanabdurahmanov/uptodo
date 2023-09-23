@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todolistapp/shared/exceptions/http_exception.dart';
+import '../../../../../shared/exceptions/http_exception.dart';
 
 part 'auth_state.freezed.dart';
 

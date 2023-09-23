@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:todolistapp/shared/data/remote/dio_network_service.dart';
+import '../../data/remote/dio_network_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final netwokServiceProvider = Provider<DioNetworkService>(

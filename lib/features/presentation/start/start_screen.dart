@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../widgets/button.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 @RoutePage()
 class StartScreen extends StatelessWidget {

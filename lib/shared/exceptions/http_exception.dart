@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todolistapp/shared/domain/models/response.dart';
+import '../domain/models/response.dart';
 
 class AppException implements Exception {
   final String? message;

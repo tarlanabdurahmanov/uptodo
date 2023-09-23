@@ -102,7 +102,7 @@ class _DayPickerState extends State<_DayPicker> {
             weekday,
             style: widget.config.weekdayLabelTextStyle?.copyWith(
                   color: i == 0 || i == 6
-                      ? AppColors.red
+                      ? Theme.of(context).colorScheme.error
                       : Theme.of(context).colorScheme.secondary,
                 ) ??
                 headerStyle?.copyWith(

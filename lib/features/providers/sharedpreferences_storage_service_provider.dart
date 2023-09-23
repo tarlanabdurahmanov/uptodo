@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolistapp/shared/data/local/shared_prefs_storage_service.dart';
+import '../../shared/data/local/shared_prefs_storage_service.dart';
 
 final storageServiceProvider = Provider((ref) {
   final SharedPrefsService prefsService = SharedPrefsService();

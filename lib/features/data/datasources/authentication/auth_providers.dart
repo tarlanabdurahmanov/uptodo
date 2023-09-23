@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolistapp/features/data/datasources/authentication/state/auth_notifier.dart';
-import 'package:todolistapp/features/data/datasources/authentication/state/auth_state.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/auth_repository.dart';
-import 'package:todolistapp/features/domain/repositories/authentication/user_cache_repository.dart';
-import 'package:todolistapp/features/providers/authentication/login_provider.dart';
-import 'package:todolistapp/features/providers/authentication/user_cache_provider.dart';
+import 'state/auth_notifier.dart';
+import 'state/auth_state.dart';
+import '../../../domain/repositories/authentication/auth_repository.dart';
+import '../../../domain/repositories/authentication/user_cache_repository.dart';
+import '../../../providers/authentication/login_provider.dart';
+import '../../../providers/authentication/user_cache_provider.dart';
 
 final authStateNotifierProvider =
     StateNotifierProvider<AuthNotifier, AuthState>(

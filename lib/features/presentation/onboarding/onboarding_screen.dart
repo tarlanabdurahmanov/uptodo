@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:todolistapp/features/data/models/onboard_model.dart';
-import 'package:todolistapp/features/presentation/widgets/button.dart';
-import 'package:todolistapp/routes/app_route.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../data/models/onboard_model.dart';
+import '../widgets/button.dart';
+import '../../../routes/app_route.dart';
+import '../../../shared/theme/app_colors.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 @RoutePage()
 class OnBoardingScreen extends StatefulWidget {
@@ -27,6 +27,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         centerTitle: false,
         titleSpacing: 5,
         title: TextButton(

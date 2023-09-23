@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/utils/font_manager.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../../shared/theme/app_colors.dart';
+import '../../../shared/utils/font_manager.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
   final Function()? onPressed;
   final bool maxWidth;
   final bool isLoading;
+  final Color? color;
 
   const PrimaryButton({
     super.key,
@@ -16,6 +17,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.maxWidth = false,
     this.isLoading = false,
+    this.color,
   });
 
   @override
@@ -23,7 +25,9 @@ class PrimaryButton extends StatelessWidget {
     return FilledButton(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
-        disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
+        backgroundColor: color ?? Theme.of(context).colorScheme.primary,
+        disabledBackgroundColor:
+            Theme.of(context).colorScheme.primary.withOpacity(0.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.buttonBorderRadius),
         ),
@@ -54,6 +58,7 @@ class OutlineButton extends StatelessWidget {
   final bool maxWidth;
   final bool hasIcon;
   final Widget? icon;
+  final Color? color;
 
   const OutlineButton({
     super.key,
@@ -62,6 +67,7 @@ class OutlineButton extends StatelessWidget {
     this.maxWidth = false,
     this.hasIcon = false,
     this.icon,
+    this.color,
   });
 
   @override
@@ -73,7 +79,7 @@ class OutlineButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSize.buttonBorderRadius),
         ),
         side: BorderSide(
-          color: Theme.of(context).colorScheme.primary,
+          color: color ?? Theme.of(context).colorScheme.primary,
           width: 2,
         ),
         minimumSize: maxWidth ? Size.fromHeight(AppSize.buttonHeight) : null,

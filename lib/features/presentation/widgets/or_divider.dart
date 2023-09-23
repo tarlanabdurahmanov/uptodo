@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todolistapp/shared/theme/app_colors.dart';
-import 'package:todolistapp/shared/utils/size.dart';
-import 'package:todolistapp/shared/utils/styles_manager.dart';
+import '../../../shared/theme/app_colors.dart';
+import '../../../shared/utils/size.dart';
+import '../../../shared/utils/styles_manager.dart';
 
 class OrDivider extends StatelessWidget {
   const OrDivider({super.key});

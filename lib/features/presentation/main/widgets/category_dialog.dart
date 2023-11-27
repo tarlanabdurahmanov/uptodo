@@ -98,13 +98,18 @@ class _CategoryDialogState extends State<CategoryDialog> {
                 if (index != 10) {
                   return _item(context, category: categories[index]);
                 } else {
-                  return _item(
-                    context,
-                    category: CategoryModel(
-                      id: 11,
-                      title: "Create New",
-                      icon: AppAssets.addCateroy,
-                      color: AppColors.categoryAdd,
+                  return GestureDetector(
+                    onTap: () {
+                      
+                    },
+                    child: _item(
+                      context,
+                      category: CategoryModel(
+                        id: 11,
+                        title: "Create New",
+                        icon: AppAssets.addCateroy,
+                        color: AppColors.categoryAdd,
+                      ),
                     ),
                   );
                 }

@@ -1,7 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todolistapp/features/data/models/todo_model.dart';
+import 'package:todolistapp/features/domain/service/hive_service.dart';
+import 'package:todolistapp/features/presentation/home/bloc/home_bloc.dart';
 import 'package:todolistapp/features/presentation/main/widgets/category_dialog.dart';
 import 'package:todolistapp/features/presentation/main/widgets/priority_dialog.dart';
 import 'package:todolistapp/features/presentation/widgets/custom_text_form_field.dart';
@@ -23,6 +27,11 @@ class AddTaskModal extends StatefulWidget {
 class _AddTaskModalState extends State<AddTaskModal> {
   int selectedPriority = 0;
   int selectedCategory = 0;
+
+  String calendarTime = "";
+
+  TextEditingController _titleEditingController = TextEditingController();
+  TextEditingController _descriptionEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -69,14 +78,14 @@ class _AddTaskModalState extends State<AddTaskModal> {
           ),
           14.height,
           CustomTextFormField(
-            controller: TextEditingController(),
+            controller: _titleEditingController,
             hintText: "Add Task...",
           ),
           14.height,
-          defaultText(
-            "Description",
-            fontSize: FontSize.body,
-            color: Theme.of(context).colorScheme.onPrimary,
+          CustomTextFormField(
+            controller: _descriptionEditingController,
+            hintText: "Description",
+            isBorderNone: true,
           ),
           35.height,
           Row(
@@ -87,7 +96,10 @@ class _AddTaskModalState extends State<AddTaskModal> {
               16.width,
               _priorityDialogButton(),
               const Spacer(),
-              SvgPicture.asset(AppAssets.send),
+              GestureDetector(
+                onTap: addToTask,
+                child: SvgPicture.asset(AppAssets.send),
+              ),
             ],
           )
         ],
@@ -156,14 +168,11 @@ class _AddTaskModalState extends State<AddTaskModal> {
               context,
               onPressedCancelButton: () {},
               onPressedOkButton: (DateTime time) {
-                // ignore: avoid_print
-                print(
-                    "timeValue -> onPressedOkButton -> ${time.toString().split(" ")[1]}");
-                // ignore: avoid_print
-                print(_getValueText(
+                calendarTime += "${_getValueText(
                   config.calendarType,
                   values,
-                ));
+                )} ${time.toString().split(" ")[1]}";
+                Navigator.pop(context);
               },
             );
           }
@@ -247,5 +256,20 @@ class _AddTaskModalState extends State<AddTaskModal> {
     }
 
     return valueText;
+  }
+
+  void addToTask() async {
+    var todoModel = TodoHiveModel(
+      userId: "1",
+      id: 1,
+      title: _titleEditingController.text,
+      description: _descriptionEditingController.text,
+      isCompleted: false,
+      createdDate: DateTime.now(),
+      taskTime: DateTime.now(),
+    );
+    final response = await HiveService.getHive().addBoxes(todoModel, "todos");
+    BlocProvider.of<HomeBloc>(context).emit(HomeInitial());
+    BlocProvider.of<HomeBloc>(context).add(HomeFetchEvent());
   }
 }

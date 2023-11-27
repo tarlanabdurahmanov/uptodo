@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
+
+part 'todo_model.g.dart';
+
 class Todo {
   final String userId;
   final int id;
@@ -49,4 +53,32 @@ class Todo {
 
   factory Todo.fromJson(String source) =>
       Todo.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+@HiveType(typeId: 0)
+class TodoHiveModel extends HiveObject {
+  @HiveField(0)
+  final String userId;
+  @HiveField(1)
+  final int id;
+  @HiveField(2)
+  final String title;
+  @HiveField(3)
+  final String description;
+  @HiveField(4)
+  final bool isCompleted;
+  @HiveField(5)
+  final DateTime createdDate;
+  @HiveField(6)
+  final DateTime taskTime;
+
+  TodoHiveModel({
+    required this.userId,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.isCompleted,
+    required this.createdDate,
+    required this.taskTime,
+  });
 }

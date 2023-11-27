@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AppError extends ConsumerWidget {
+class AppError extends StatelessWidget {
   const AppError({Key? key}) : super(key: key);
   static const String routeName = 'appError';
 
   @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(appThemeProvider.notifier);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: InkWell(
         onTap: () {
-          theme.toggleTheme();
+          // theme.toggleTheme();
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

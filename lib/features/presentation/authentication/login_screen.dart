@@ -1,25 +1,20 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todolistapp/features/providers/authentication/authentication_provider.dart';
-import '../../../core/widgets/app_snackbar.dart';
 import '../widgets/button.dart';
 import '../widgets/custom_text_form_field.dart';
 import '../widgets/or_divider.dart';
-import '../../../routes/app_route.dart';
 import '../../../shared/utils/app_assets.dart';
 import '../../../shared/utils/font_manager.dart';
 import '../../../shared/utils/size.dart';
 import '../../../shared/utils/styles_manager.dart';
 
 @RoutePage()
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends StatelessWidget {
   static const routeName = '/loginScreen';
 
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super();
 
   final TextEditingController usernameController =
       TextEditingController(text: 'kminchelle');
@@ -27,30 +22,30 @@ class LoginScreen extends ConsumerWidget {
       TextEditingController(text: '0lelplR');
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.maybeWhen(
-        orElse: () {},
-        authenticated: (user) {
-          appSnackBar(
-            context,
-            text: "User Logged In",
-            type: AnimatedSnackBarType.success,
-          );
-          AutoRouter.of(context).pushAndPopUntil(
-            const MainRoute(),
-            predicate: (_) => false,
-          );
-        },
-        unauthenticated: (message) {
-          appSnackBar(
-            context,
-            text: message.message.toString(),
-            type: AnimatedSnackBarType.error,
-          );
-        },
-      );
-    });
+  Widget build(BuildContext context) {
+    // ref.listen(authNotifierProvider, (previous, next) {
+    //   next.maybeWhen(
+    //     orElse: () {},
+    //     authenticated: (user) {
+    //       appSnackBar(
+    //         context,
+    //         text: "User Logged In",
+    //         type: AnimatedSnackBarType.success,
+    //       );
+    //       AutoRouter.of(context).pushAndPopUntil(
+    //         const MainRoute(),
+    //         predicate: (_) => false,
+    //       );
+    //     },
+    //     unauthenticated: (message) {
+    //       appSnackBar(
+    //         context,
+    //         text: message.message.toString(),
+    //         type: AnimatedSnackBarType.error,
+    //       );
+    //     },
+    //   );
+    // });
     // final state = ref.watch(authStateNotifierProvider);
     // ref.listen(
     //   authStateNotifierProvider.select((value) => value),
@@ -110,18 +105,16 @@ class LoginScreen extends ConsumerWidget {
               70.height,
               PrimaryButton(
                 text: "Login",
-                isLoading: ref
-                    .watch(authNotifierProvider)
-                    .maybeWhen(orElse: () => false, loading: () => true),
+                isLoading: false,
                 onPressed: () {
                   // ref.read(authStateNotifierProvider.notifier).loginUser(
                   //       usernameController.text,
                   //       passwordController.text,
                   //     );
-                  ref.read(authNotifierProvider.notifier).login(
-                        email: usernameController.text,
-                        password: passwordController.text,
-                      );
+                  // ref.read(authNotifierProvider.notifier).login(
+                  //       email: usernameController.text,
+                  //       password: passwordController.text,
+                  //     );
                 },
                 maxWidth: true,
               ),
@@ -132,7 +125,7 @@ class LoginScreen extends ConsumerWidget {
                 hasIcon: true,
                 text: "Login with Google",
                 onPressed: () {
-                  ref.read(authNotifierProvider.notifier).continueWithGoogle();
+                  // ref.read(authNotifierProvider.notifier).continueWithGoogle();
                 },
                 maxWidth: true,
                 icon: SvgPicture.asset(AppAssets.google),
@@ -168,10 +161,10 @@ class LoginScreen extends ConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            AutoRouter.of(context).pushAndPopUntil(
-                              RegisterRoute(),
-                              predicate: (_) => false,
-                            );
+                            // AutoRouter.of(context).pushAndPopUntil(
+                            //   RegisterRoute(),
+                            //   predicate: (_) => false,
+                            // );
                           },
                       ),
                     ],
@@ -198,11 +191,9 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget loginButton(WidgetRef ref) {
+  Widget loginButton() {
     return ElevatedButton(
-      onPressed: () {
-        // validate email and password
-      },
+      onPressed: () {},
       child: const Text('Login'),
     );
   }

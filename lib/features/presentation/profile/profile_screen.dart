@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolistapp/features/providers/authentication/auth_data_source.dart';
 import '../widgets/custom_list_tile.dart';
 import '../../../routes/app_route.dart';
 import '../../../shared/utils/app_assets.dart';
@@ -9,12 +7,12 @@ import '../../../shared/utils/font_manager.dart';
 import '../../../shared/utils/size.dart';
 import '../../../shared/utils/styles_manager.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final firebaseProv = ref.watch(firebaseAuthProvider);
+  Widget build(BuildContext context) {
+    // final firebaseProv = ref.watch(firebaseAuthProvider);
     // final userLocalRepositoryProviderProfile =
     //     ref.watch(userLocalRepositoryProvider);
     return Scaffold(
@@ -170,7 +168,7 @@ class ProfileScreen extends ConsumerWidget {
                 // final logout =
                 //     await userLocalRepositoryProviderProfile.deleteUser();
 
-                await firebaseProv.signOut();
+                // await firebaseProv.signOut();
                 // if (logout) {
                 // ignore: use_build_context_synchronously
                 AutoRouter.of(context).pushAndPopUntil(

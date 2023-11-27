@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../providers/splash/splash_provider.dart';
 import '../../../shared/utils/app_assets.dart';
 import '../../../shared/utils/size.dart';
 import '../../../shared/utils/styles_manager.dart';
@@ -10,31 +8,31 @@ import '../../../shared/utils/styles_manager.dart';
 import '../../../../routes/app_route.dart';
 
 @RoutePage()
-class SplashScreen extends ConsumerStatefulWidget {
+class SplashScreen extends StatefulWidget {
   static const String routeName = '/splashScreen';
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   final AppRouter appRouter = AppRouter();
 
   @override
   void initState() {
     super.initState();
-    final user = ref.read(userProvider);
+    // final user = ref.read(userProvider);
 
-    Future.delayed(const Duration(seconds: 1), () async {
-      final route =
-          user != null ? const MainRoute() : LoginRoute() as PageRouteInfo;
-      // ignore: use_build_context_synchronously
-      AutoRouter.of(context).pushAndPopUntil(
-        route,
-        predicate: (_) => false,
-      );
-    });
+    // Future.delayed(const Duration(seconds: 1), () async {
+    //   final route =
+    //       user != null ? const MainRoute() : LoginRoute() as PageRouteInfo;
+    //   // ignore: use_build_context_synchronously
+    //   AutoRouter.of(context).pushAndPopUntil(
+    //     route,
+    //     predicate: (_) => false,
+    //   );
+    // });
   }
 
   @override

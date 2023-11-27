@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todolistapp/features/data/models/todo_model.dart';
 import 'package:todolistapp/shared/exceptions/http_exception.dart';
 
@@ -58,14 +57,3 @@ class TodoRemoteDataSource extends TodoDataSource {
     return Right(todos);
   }
 }
-
-final todoDataSourceProvider = Provider((ref) => TodoRemoteDataSource());
-// final dataProvider = StreamProvider.autoDispose<QuerySnapshot>((ref) {
-//   try {
-//     FirebaseFirestore _firestore = FirebaseFirestore.instance;
-//     return _firestore.collection("todos").snapshots();
-//   } catch (e) {
-//     print(e.toString());
-//     return Stream.error(e.toString());
-//   }
-// });

@@ -1,57 +1,33 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:todolistapp/features/data/datasources/todo/todo_data_source.dart';
+import 'package:todolistapp/core/enums/app_enums.dart';
+import 'package:todolistapp/core/widgets/build_toast.dart';
 import 'package:todolistapp/features/data/models/todo_model.dart';
-import 'package:todolistapp/features/providers/todo/todo_provider.dart';
+import 'package:todolistapp/features/presentation/home/bloc/home_bloc.dart';
 import 'home_app_bar.dart';
 import '../widgets/custom_text_form_field.dart';
-import '../../../routes/app_route.dart';
 import '../../../shared/theme/app_colors.dart';
 import '../../../shared/utils/app_assets.dart';
 import '../../../shared/utils/font_manager.dart';
 import '../../../shared/utils/size.dart';
 import '../../../shared/utils/styles_manager.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  @override
-  void initState() {
-    final todoDataSource = ref.read(todoDataSourceProvider);
-    todoDataSource.allTodos();
-    super.initState();
-    // Future.delayed(const Duration(seconds: 2)).then(
-    //   (value) {
-    //     final user = ref.read(userProvider);
-    //     todoDataSource.insertTodo(
-    //       todo: Todo(
-    //           id: 1,
-    //           userId: user!.uid,
-    //           title: "hello world",
-    //           description: " Fist description",
-    //           isCompleted: true,
-    //           createdDate: DateTime.now(),
-    //           taskTime: DateTime.now()),
-    //     );
-    //   },
-    // );
-  }
-
+class _HomeScreenState extends State<HomeScreen> {
   DateFormat dateFormat = DateFormat("HH:mm");
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final todoNotifier = ref.watch(todoNotifierProvider);
-
     return Scaffold(
       appBar: homeAppBar(context, onPressed: () {}),
       body: Padding(
@@ -90,37 +66,66 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             16.height,
-            todoNotifier.when(
-              allTodo: (data) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _item(context, screenWidth, data[index]);
-                    },
-                  ),
+            BlocConsumer<HomeBloc, HomeState>(
+              listener: (context, state) {
+                buildToast(
+                    msg: state.runtimeType.toString(), type: ToastType.success);
+              },
+              builder: (context, state) {
+                if (state is HomeInitial) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is HomeStateSuccess) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: state.todos?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _item(context, screenWidth, state.todos![index]);
+                      },
+                    ),
+                  );
+                } else if (state is HomeStateError) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                return const Center(
+                  child: Text("Return "),
                 );
               },
-              error: (e) {
-                return defaultText(e.message.toString(), color: Colors.red);
-              },
-              loading: () {
-                return const Center(child: CircularProgressIndicator());
-              },
-              initial: () {
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
+            )
+
+            // todoNotifier.when(
+            //   allTodo: (data) {
+            //     return Expanded(
+            //       child: ListView.builder(
+            //         itemCount: data.length,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return _item(context, screenWidth, data[index]);
+            //         },
+            //       ),
+            //     );
+            //   },
+            //   error: (e) {
+            //     return defaultText(e.message.toString(), color: Colors.red);
+            //   },
+            //   loading: () {
+            //     return const Center(child: CircularProgressIndicator());
+            //   },
+            //   initial: () {
+            //     return const Center(child: CircularProgressIndicator());
+            //   },
+            // ),
           ],
         ),
       ),
     );
   }
 
-  GestureDetector _item(BuildContext context, double screenWidth, Todo todo) {
+  GestureDetector _item(
+      BuildContext context, double screenWidth, TodoHiveModel todo) {
     return GestureDetector(
       onTap: () {
-        AutoRouter.of(context).push(TaskRoute(todo: todo));
+        // AutoRouter.of(context).push(TaskRoute(todo: todo));
       },
       child: Container(
         padding: const EdgeInsets.only(

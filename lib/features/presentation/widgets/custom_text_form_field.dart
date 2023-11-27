@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
   final FocusNode? focusNode;
   final bool readOnly;
   final bool obscureText;
+  final bool isBorderNone;
 
   const CustomTextFormField({
     super.key,
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatefulWidget {
     this.focusNode,
     this.readOnly = false,
     this.obscureText = false,
+    this.isBorderNone = false,
   });
 
   @override
@@ -30,6 +32,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        maxLines: 4,
+        minLines: 1,
         obscureText: widget.obscureText,
         obscuringCharacter: '•',
         readOnly: widget.readOnly,
@@ -46,21 +50,27 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   child: widget.prefixIcon,
                 )
               : null,
-          border: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onSecondary),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onSecondary),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(4)),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.primary),
-          ),
+          border: widget.isBorderNone
+              ? InputBorder.none
+              : OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                ),
+          enabledBorder: widget.isBorderNone
+              ? InputBorder.none
+              : OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                ),
+          focusedBorder: widget.isBorderNone
+              ? InputBorder.none
+              : OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
+                ),
           hintText: widget.hintText,
           hintStyle: TextStyle(
             fontSize: FontSize.details,

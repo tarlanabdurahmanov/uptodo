@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           );
         },
       ),
-      body: const [
+      body:  [
         HomeScreen(),
         CalendarScreen(),
         AppError(),

@@ -1,41 +1,37 @@
 import 'package:flutter/material.dart';
-import '../data/local/storage_service.dart';
-import '../domain/providers/sharedpreferences_storage_service_provider.dart';
-import '../globals.dart';
 import 'app_colors.dart';
 import 'test_styles.dart';
 import 'text_theme.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final appThemeProvider = StateNotifierProvider<AppThemeModeNotifier, ThemeMode>(
-  (ref) {
-    final storage = ref.watch(storageServiceProvider);
-    return AppThemeModeNotifier(storage);
-  },
-);
+// final appThemeProvider = StateNotifierProvider<AppThemeModeNotifier, ThemeMode>(
+//   (ref) {
+//     final storage = ref.watch(storageServiceProvider);
+//     return AppThemeModeNotifier(storage);
+//   },
+// );
 
-class AppThemeModeNotifier extends StateNotifier<ThemeMode> {
-  final StroageService stroageService;
+// class AppThemeModeNotifier extends StateNotifier<ThemeMode> {
+//   final StroageService stroageService;
 
-  ThemeMode currentTheme = ThemeMode.dark;
+//   ThemeMode currentTheme = ThemeMode.dark;
 
-  AppThemeModeNotifier(this.stroageService) : super(ThemeMode.dark) {
-    getCurrentTheme();
-  }
+//   AppThemeModeNotifier(this.stroageService) : super(ThemeMode.dark) {
+//     getCurrentTheme();
+//   }
 
-  void toggleTheme() {
-    state = state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-    stroageService.set(APP_THEME_STORAGE_KEY, state.name);
-  }
+//   void toggleTheme() {
+//     // state = state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+//     // stroageService.set(APP_THEME_STORAGE_KEY, state.name);
+//   }
 
-  void getCurrentTheme() async {
-    // final theme = await stroageService.get(APP_THEME_STORAGE_KEY);
-    // ignore: unnecessary_string_interpolations
-    final value = ThemeMode.values.byName('${'dark'}');
-    // final value = ThemeMode.values.byName('${'light' ?? 'light'}');
-    state = value;
-  }
-}
+//   void getCurrentTheme() async {
+//     // final theme = await stroageService.get(APP_THEME_STORAGE_KEY);
+//     // ignore: unnecessary_string_interpolations
+//     // final value = ThemeMode.values.byName('${'dark'}');
+//     // final value = ThemeMode.values.byName('${'light' ?? 'light'}');
+//     // state = value;
+//   }
+// }
 
 class AppTheme {
   static ThemeData get darkTheme {

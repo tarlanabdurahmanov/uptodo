@@ -14,17 +14,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       repository = TodoRepositoryImp();
       switch (event.runtimeType) {
         case HomeFetchEvent:
-          try {
+          // try {
             var model = await repository?.getTodos();
             if (model != null) {
               emit(HomeStateSuccess(model));
             } else {
               emit(const HomeStateError("Empty"));
             }
-          } catch (error, _) {
-            emit(HomeStateError(error.toString()));
-          }
-          break;
+          // } catch (error, _) {
+          //   emit(HomeStateError(error.toString()));
+          // }
+          // break;
       }
     });
   }

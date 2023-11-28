@@ -25,8 +25,8 @@ class AddTaskModal extends StatefulWidget {
 }
 
 class _AddTaskModalState extends State<AddTaskModal> {
-  int selectedPriority = 0;
-  int selectedCategory = 0;
+  int selectedPriority = 1;
+  int selectedCategory = 1;
 
   String calendarTime = "";
 
@@ -49,7 +49,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
     setState(() {
       selectedCategory = categoryModel.id;
     });
-    // print("categoryModel -> ${categoryModel.id}");
+    print("categoryModel -> ${categoryModel.id}");
     Navigator.pop(context);
   }
 
@@ -168,10 +168,10 @@ class _AddTaskModalState extends State<AddTaskModal> {
               context,
               onPressedCancelButton: () {},
               onPressedOkButton: (DateTime time) {
-                calendarTime += "${_getValueText(
+                calendarTime = "${_getValueText(
                   config.calendarType,
                   values,
-                )} ${time.toString().split(" ")[1]}";
+                ).trim()}T${time.toString().split(" ")[1].split('.')[0]}";
                 Navigator.pop(context);
               },
             );
@@ -259,17 +259,18 @@ class _AddTaskModalState extends State<AddTaskModal> {
   }
 
   void addToTask() async {
-    var todoModel = TodoHiveModel(
+    var todoModel = Todo(
       userId: "1",
-      id: 1,
       title: _titleEditingController.text,
       description: _descriptionEditingController.text,
       isCompleted: false,
-      createdDate: DateTime.now(),
-      taskTime: DateTime.now(),
+      taskTime: calendarTime,
+      categoryId: selectedCategory,
+      priority: selectedPriority,
     );
     final response = await HiveService.getHive().addBoxes(todoModel, "todos");
     BlocProvider.of<HomeBloc>(context).emit(HomeInitial());
     BlocProvider.of<HomeBloc>(context).add(HomeFetchEvent());
+    Navigator.pop(context);
   }
 }

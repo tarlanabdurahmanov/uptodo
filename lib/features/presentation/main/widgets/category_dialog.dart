@@ -99,9 +99,7 @@ class _CategoryDialogState extends State<CategoryDialog> {
                   return _item(context, category: categories[index]);
                 } else {
                   return GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: _item(
                       context,
                       category: CategoryModel(

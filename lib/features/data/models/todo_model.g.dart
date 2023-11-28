@@ -6,31 +6,32 @@ part of 'todo_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TodoHiveModelAdapter extends TypeAdapter<TodoHiveModel> {
+class TodoAdapter extends TypeAdapter<Todo> {
   @override
   final int typeId = 0;
 
   @override
-  TodoHiveModel read(BinaryReader reader) {
+  Todo read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TodoHiveModel(
+    return Todo(
       userId: fields[0] as String,
-      id: fields[1] as int,
+      id: fields[1] as int?,
       title: fields[2] as String,
       description: fields[3] as String,
       isCompleted: fields[4] as bool,
-      createdDate: fields[5] as DateTime,
-      taskTime: fields[6] as DateTime,
+      taskTime: fields[6] as String?,
+      categoryId: fields[7] as int?,
+      priority: fields[8] as int?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TodoHiveModel obj) {
+  void write(BinaryWriter writer, Todo obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.userId)
       ..writeByte(1)
@@ -44,7 +45,11 @@ class TodoHiveModelAdapter extends TypeAdapter<TodoHiveModel> {
       ..writeByte(5)
       ..write(obj.createdDate)
       ..writeByte(6)
-      ..write(obj.taskTime);
+      ..write(obj.taskTime)
+      ..writeByte(7)
+      ..write(obj.categoryId)
+      ..writeByte(8)
+      ..write(obj.priority);
   }
 
   @override
@@ -53,7 +58,7 @@ class TodoHiveModelAdapter extends TypeAdapter<TodoHiveModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TodoHiveModelAdapter &&
+      other is TodoAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,10 +1,19 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:todolistapp/core/enums/app_enums.dart';
+import 'package:todolistapp/core/widgets/app_snackbar.dart';
+import 'package:todolistapp/core/widgets/build_toast.dart';
 import 'package:todolistapp/features/data/models/todo_model.dart';
+import 'package:todolistapp/features/domain/service/hive_service.dart';
+import 'package:todolistapp/features/presentation/home/bloc/home_bloc.dart';
+import 'package:todolistapp/features/presentation/main/widgets/category_dialog.dart';
+import 'package:todolistapp/shared/theme/app_colors.dart';
 import 'widgets/task_list_tile.dart';
 import '../widgets/button.dart';
 import '../../../shared/utils/app_assets.dart';
@@ -19,7 +28,7 @@ class TaskScreen extends StatelessWidget {
 
   TaskScreen({super.key, required this.todo});
 
-  DateFormat dateFormat = DateFormat("HH:mm");
+  DateFormat dateFormat = DateFormat("MMMM d, HH:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -92,40 +101,69 @@ class TaskScreen extends StatelessWidget {
             ),
             TaskListTile(
               icon: AppAssets.timer,
-              title: 'Task Time:',
+              title: 'Created Time:',
               traling: defaultText(
                 "Today at ${dateFormat.format(todo.createdDate)}",
                 color: Theme.of(context).colorScheme.secondary,
                 fontSize: FontSize.thin,
               ),
             ),
+            if (todo.taskTime != '')
+              TaskListTile(
+                icon: AppAssets.timer,
+                title: 'Task Time:',
+                traling: defaultText(
+                  "${dateFormat.format(DateTime.parse(todo.taskTime!))}",
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: FontSize.thin,
+                ),
+              ),
+            if (todo.categoryId != null)
+              TaskListTile(
+                icon: AppAssets.tag,
+                title: 'Task Category :',
+                traling: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      categories
+                          .where((element) => element.id == todo.categoryId)
+                          .first
+                          .icon,
+                      width: 24,
+                      height: 24,
+                    ),
+                    10.width,
+                    defaultText(
+                      categories
+                          .where((element) => element.id == todo.categoryId)
+                          .first
+                          .title
+                          .toString(),
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: FontSize.thin,
+                    ),
+                  ],
+                ),
+              ),
             TaskListTile(
-              icon: AppAssets.tag,
-              title: 'Task Category :',
+              icon: AppAssets.flag,
+              title: 'Task Priority :',
               traling: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SvgPicture.asset(
-                    AppAssets.mortarboard,
-                    width: 24,
-                    height: 24,
+                    AppAssets.flag,
+                    width: 18,
+                    height: 18,
                   ),
-                  10.width,
+                  5.width,
                   defaultText(
-                    "University",
-                    color: Theme.of(context).colorScheme.secondary,
+                    todo.priority.toString(),
                     fontSize: FontSize.thin,
+                    color: AppColors.white,
                   ),
                 ],
-              ),
-            ),
-            TaskListTile(
-              icon: AppAssets.flag,
-              title: 'Task Priority :',
-              traling: defaultText(
-                "Default",
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: FontSize.thin,
               ),
             ),
             TaskListTile(
@@ -142,7 +180,17 @@ class TaskScreen extends StatelessWidget {
               icon: AppAssets.trash,
               title: 'Delete Task',
               color: Theme.of(context).colorScheme.error,
-              onTap: () {},
+              onTap: () {
+                HiveService.getHive().deleteTodo(todo.id);
+                BlocProvider.of<HomeBloc>(context).emit(HomeInitial());
+                BlocProvider.of<HomeBloc>(context).add(HomeFetchEvent());
+                Navigator.pop(context);
+                appSnackBar(
+                  context,
+                  text: "Todo is deleted",
+                  type: AnimatedSnackBarType.success,
+                );
+              },
             ),
             const Spacer(),
             PrimaryButton(

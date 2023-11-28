@@ -11,5 +11,6 @@ appSnackBar(
     type: type,
     mobileSnackBarPosition: MobileSnackBarPosition.top,
     snackBarStrategy: RemoveSnackBarStrategy(),
+    duration: const Duration(seconds: 2),
   ).show(context);
 }

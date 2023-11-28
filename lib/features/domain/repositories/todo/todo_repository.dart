@@ -14,12 +14,12 @@ import 'package:todolistapp/shared/exceptions/http_exception.dart';
 // }
 
 abstract class TodoRepository {
-  Future<List<TodoHiveModel>?> getTodos();
+  Future<List<Todo>?> getTodos();
 }
 
 class TodoRepositoryImp extends TodoRepository {
   @override
-  Future<List<TodoHiveModel>> getTodos() async {
+  Future<List<Todo>> getTodos() async {
     final todos = await HiveService.getHive().getTodos();
     return todos;
   }

@@ -168,7 +168,9 @@ class _PriorityDialogState extends State<PriorityDialog> {
             borderRadius: BorderRadius.circular(4),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
         child: defaultText(
           "Cancel",
           color: Theme.of(context).colorScheme.secondary,

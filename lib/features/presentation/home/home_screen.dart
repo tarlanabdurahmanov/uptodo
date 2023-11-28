@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +8,8 @@ import 'package:todolistapp/core/enums/app_enums.dart';
 import 'package:todolistapp/core/widgets/build_toast.dart';
 import 'package:todolistapp/features/data/models/todo_model.dart';
 import 'package:todolistapp/features/presentation/home/bloc/home_bloc.dart';
+import 'package:todolistapp/features/presentation/main/widgets/category_dialog.dart';
+import 'package:todolistapp/routes/app_route.dart';
 import 'home_app_bar.dart';
 import '../widgets/custom_text_form_field.dart';
 import '../../../shared/theme/app_colors.dart';
@@ -75,21 +78,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state is HomeInitial) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is HomeStateSuccess) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: state.todos?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _item(context, screenWidth, state.todos![index]);
-                      },
-                    ),
-                  );
+                  if (state.todos!.isNotEmpty) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.todos?.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _item(
+                              context, screenWidth, state.todos![index]);
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("Empty"),
+                    );
+                  }
                 } else if (state is HomeStateError) {
                   return Center(
                     child: Text(state.message),
                   );
                 }
                 return const Center(
-                  child: Text("Return "),
+                  child: Text("Return"),
                 );
               },
             )
@@ -121,11 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  GestureDetector _item(
-      BuildContext context, double screenWidth, TodoHiveModel todo) {
+  GestureDetector _item(BuildContext context, double screenWidth, Todo todo) {
     return GestureDetector(
       onTap: () {
-        // AutoRouter.of(context).push(TaskRoute(todo: todo));
+        AutoRouter.of(context).push(TaskRoute(todo: todo));
       },
       child: Container(
         padding: const EdgeInsets.only(
@@ -170,29 +179,42 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: Theme.of(context).colorScheme.primary,
+                          if (todo.categoryId != 0)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: categories
+                                    .where((element) =>
+                                        element.id == todo.categoryId)
+                                    .first
+                                    .color,
+                              ),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    categories
+                                        .where((element) =>
+                                            element.id == todo.categoryId)
+                                        .first
+                                        .icon,
+                                    width: 18,
+                                    height: 18,
+                                  ),
+                                  5.width,
+                                  defaultText(
+                                    categories
+                                        .where((element) =>
+                                            element.id == todo.categoryId)
+                                        .first
+                                        .title,
+                                    fontSize: FontSize.thin,
+                                    color: AppColors.white,
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppAssets.mortarboard,
-                                  width: 18,
-                                  height: 18,
-                                ),
-                                5.width,
-                                defaultText(
-                                  "University",
-                                  fontSize: FontSize.thin,
-                                  color: AppColors.white,
-                                ),
-                              ],
-                            ),
-                          ),
                           12.width,
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -212,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 5.width,
                                 defaultText(
-                                  "1",
+                                  todo.priority.toString(),
                                   fontSize: FontSize.thin,
                                   color: AppColors.white,
                                 ),

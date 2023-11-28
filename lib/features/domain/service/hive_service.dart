@@ -19,37 +19,44 @@ class HiveService {
 /* function to add box */
   addBoxes<T>(dynamic response, String boxName) async {
     final openBox = await Hive.openBox(boxName);
-    try {
-      // openBox.deleteAt(0);
-    } catch (exception) {
-      print("adding boxes exception ${exception}");
-    } finally {
-      openBox.add(response);
+    print(response);
+    openBox.add(response);
+  }
+
+  Future<dynamic> getBoxes(String boxName) async {
+    final openBox = await Hive.openBox(boxName);
+    if (openBox.isNotEmpty) {
+      return openBox.getAt(0);
+    } else {
+      return openBox;
     }
   }
 
-/* function to get box */
-  Future<dynamic> getBoxes(String boxName) async {
-    final openBox = await Hive.openBox(boxName);
-    return openBox.getAt(0);
-  }
-
-  Future<List<TodoHiveModel>> getTodos() async {
-    String boxname = "todos"; //your box name
+  Future<List<Todo>> getTodos() async {
+    String boxname = "todos";
     await getBoxes(boxname);
     var todosbox = Hive.box(boxname);
     final data = todosbox.keys.map((key) {
       final item = todosbox.get(key);
-      return TodoHiveModel(
+      return Todo(
         userId: item.userId,
-        id: item.id,
+        id: key,
         title: item.title,
         description: item.description,
         isCompleted: item.isCompleted,
-        createdDate: item.createdDate,
         taskTime: item.taskTime,
+        categoryId: item.categoryId,
+        priority: item.priority,
       );
     }).toList();
+
     return data;
+  }
+
+  deleteTodo(dynamic key) async {
+    String boxname = "todos";
+    await getBoxes(boxname);
+    var todosbox = Hive.box(boxname);
+    todosbox.delete(key);
   }
 }

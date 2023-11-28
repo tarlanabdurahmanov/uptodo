@@ -10,7 +10,7 @@ abstract class HomeState extends Equatable {
 final class HomeInitial extends HomeState {}
 
 class HomeStateSuccess extends HomeState {
-  final List<TodoHiveModel>? todos;
+  final List<Todo>? todos;
 
   const HomeStateSuccess(this.todos);
 }

@@ -26,11 +26,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateFormat dateFormat = DateFormat("HH:mm");
-
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: homeAppBar(context, onPressed: () {}),
       body: Padding(
@@ -83,8 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                         itemCount: state.todos?.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _item(
-                              context, screenWidth, state.todos![index]);
+                          return TodoItem(todo: state.todos![index]);
                         },
                       ),
                     );
@@ -131,7 +127,42 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  GestureDetector _item(BuildContext context, double screenWidth, Todo todo) {
+  // ignore: unused_element
+  Column _noData(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(AppAssets.checklist),
+        10.height,
+        defaultText(
+          "What do you want to do today?",
+          fontSize: FontSize.subTitle,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        Center(
+          child: defaultText(
+            "Tap + to add your tasks",
+            fontSize: FontSize.details,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class TodoItem extends StatelessWidget {
+  TodoItem({super.key, required this.todo});
+
+  final Todo todo;
+
+  DateFormat dateFormatToday = DateFormat("HH:mm");
+  DateFormat dateFormat = DateFormat("d MMM  HH:mm");
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: () {
         AutoRouter.of(context).push(TaskRoute(todo: todo));
@@ -172,7 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       defaultText(
-                        "Today at ${dateFormat.format(todo.createdDate)}",
+                        todo.taskTime != ''
+                            ? dateFormat.format(DateTime.parse(todo.taskTime!))
+                            : "Today at ${dateFormatToday.format(todo.createdDate)}",
                         fontSize: FontSize.light,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
@@ -251,29 +284,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  // ignore: unused_element
-  Column _noData(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(AppAssets.checklist),
-        10.height,
-        defaultText(
-          "What do you want to do today?",
-          fontSize: FontSize.subTitle,
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-        Center(
-          child: defaultText(
-            "Tap + to add your tasks",
-            fontSize: FontSize.details,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-      ],
     );
   }
 }

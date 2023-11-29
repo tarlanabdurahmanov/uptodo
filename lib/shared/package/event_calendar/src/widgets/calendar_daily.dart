@@ -129,13 +129,7 @@ class CalendarDaily extends StatelessWidget {
   void executeAsync(context) async {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (animatedTo.hasClients) {
-        final animateOffset = (DayOptions.of(context).compactMode
-                ? 40.0
-                : (HeaderOptions.of(context).weekDayStringType ==
-                        WeekDayStringTypes.FULL
-                    ? 80.0
-                    : 60.0)) *
-            (dayIndex - 1);
+        final animateOffset = 50.0 * (dayIndex - 1);
         animatedTo.animateTo(animateOffset,
             duration: const Duration(milliseconds: 700),
             curve: Curves.decelerate);
